@@ -1,0 +1,6 @@
+extend layout
+block content
+	ul 
+		each article, index in arr
+			li
+				a(href='#{article.link}') #{article.title} 

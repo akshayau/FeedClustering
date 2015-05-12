@@ -1,0 +1,8 @@
+extend layout 
+block content
+	p Rand Index: #{randIndex}
+	form(action='/renderEval', method='post')
+		p 
+		input(type="submit", name="Evaluate Rand Index") 
+	script
+		include branch.js

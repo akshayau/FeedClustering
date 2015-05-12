@@ -1,0 +1,12 @@
+extend layout
+block content
+	form(action='/evaluate', method='post')
+		p Total Clusters
+			input(type="number", name="totalClusters", value="5")
+		each article, index in arr
+			p
+				input(type="number", name="docClusters[]", value="5")
+				| #{article.title} 
+			
+		p 
+		input(type="submit")

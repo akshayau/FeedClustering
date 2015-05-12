@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+</style>
+<body>
+<script>
+
+var data = [
+  {"value":[20,120,102],
+   "size":1
+  },
+  {
+   "left":{
+      "value":[250,255,253],
+      "size":1
+    },
+   "right":{
+      "value":[255,255,240],
+      "size":1
+    },
+   "size":2
+  },
+  {"value":[100,54,300],
+   "size":1
+  }
+]
+
+function groupClusters(numClusters, clusterArr) {
+    if (clusterArr.length < numClusters) {
+        var data = clusterArr[0];
+        if (data.size == 1) 
+            clusterArr.push(data);
+        else {
+            clusterArr.push(data.left); 
+            clusterArr.push(data.right);    
+        }
+        clusterArr = clusterArr.shift();    
+    }
+    
+}
+
+function extractValuesHelper(tree, valArr, count) { 
+  if (tree.value != undefined) {
+    valArr[count-1] = tree.value; 
+    return [valArr, count-1];
+  }
+  else {
+    leftVals = extractValuesHelper(tree.left, valArr, count); 
+    return extractValuesHelper(tree.right, leftVals[0], leftVals[1]); 
+  } 
+}
+
+function extractValues(treeArr) {
+  var arr = []; 
+  for (var i = 0; i < treeArr.length; i++) {
+    var len = treeArr[i].size; 
+    var valArr = [];
+    while(len--) valArr.push([]);
+    vals = extractValuesHelper(treeArr[i], valArr, treeArr[i].size);
+    arr.push(vals[0]);
+  }
+  return arr;
+}
+
+console.log(extractValues(data));
+</script>

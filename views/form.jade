@@ -1,0 +1,33 @@
+extend layout
+block content 
+	form(action='/', method='post')
+		p URLs 
+		textarea(cols="60", row="10", name="feedList")
+		
+		p No of Articles (Per Site):  
+			input(type="number", name="articles", value="10")
+		p Clustering Type: 
+			input(type="radio", name="clusterType", value="kmeans") 
+			| K-Means 
+			input(type="radio", name="clusterType", value="hierarchical")
+			| Heirarchical
+		h4 K-Means Options
+		p Clusters: 
+			input(type="number", name="clusters", value="5")
+		h4 Hierarchical Options
+		p Distance: 
+			input(type="radio", name="linkage", value="euclidean") 
+			| Euclidean
+			input(type="radio", name="linkage", value="manhattan")
+			| Manhattan
+			input(type="radio", name="linkage", value="max")
+			| Max
+		p Linkage: 
+			input(type="radio", name="distance", value="average") 
+			| Average
+			input(type="radio", name="distance", value="single")
+			| Single
+			input(type="radio", name="distance", value="complete")
+			| Complete
+		p 
+			input(type="submit")
