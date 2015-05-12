@@ -3,9 +3,9 @@ var sampleData = [{"name":"one", "value": 10}, {"name":"two", "value": 20}, {"na
 //var data = [{"name": "Root","children": [{"name": "Leaf1","children": null,"value": 2098629},{"name": "Leaf2","children": null,"value": 104720}]}];
 // var data = [{"value": 4, "name": "top_level", "children": [{"value": 2, "name": "www.reddit.com", "children": [{"value": 2, "name": "r", "children": [{"value": 1, "name": "sports"}, {"value": 1, "name": "funny"}]}]}, {"value": 2, "name": "stackoverflow.com", "children": [{"value": 1, "name": "questions"}, {"value": 1, "name": "tags"}]}]}];
 
-var w = $(window).width(),
-    h = $(window).height()-100,
-    r = Math.min(w, h),
+var w = $(window).width()*0.75,
+    h = $(window).height()*0.75,
+    r = Math.min(w, h)*0.75,
     x = d3.scale.linear().range([0, r]),
     y = d3.scale.linear().range([0, r]);
 

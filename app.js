@@ -31,6 +31,10 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser());
 
+app.get('/favicon.ico', function(req, res) {
+  res.render('form');
+});
+
 app.get('/', function(req, res) {
   res.render('form');
 });
@@ -114,14 +118,16 @@ var hclusters;
 var matrix; 
 var randIndex = -1; 
 var groupedDocs = []; 
+var linkage; 
+var distance; 
 
 app.post('/', function(req, res) {
 	var feedList = req.body.feedList;
 	var articles = req.body.articles; 
 	var clusters = req.body.clusters;  
 	var clusterType = req.body.clusterType;
-	var linkage = req.body.linkage; 
-	var distance = req.body.distance; 
+	linkage = req.body.linkage; 
+	distance = req.body.distance; 
 	var output = []; 
 	var dictionary = [];
 	var docs = 0; 
@@ -165,13 +171,15 @@ app.post('/', function(req, res) {
 					}
 
 					// hierarchical clustering  
-					hclusters = clusterfck.hcluster(matrix, linkage, distance);
+					hclusters = clusterfck.hcluster(matrix, distance, linkage);
 					temp = hclusters;  
 					var d3hclusters = convert([temp], "root"); 
 					hierData = [d3hclusters, matrix, docArr];
 
 					if (clusterType == 'hierarchical') {
-						res.render('branch', {randIndex: "Not calculated"});
+						res.render('branch', {randIndex: "Not calculated", 
+								linkage: capitalizeFirstLetter(linkage), 
+								distance: capitalizeFirstLetter(distance)});
 					}
 
 					// kmeans clustering
@@ -198,6 +206,7 @@ app.post('/', function(req, res) {
 
 					// get most frequent terms 
 					var centroids = kmeans.centroids;
+					kMeansData = [];
 					kMeansData.push({"name": "root", "children": []}); 
 					for (var j = 0; j < centroids.length; j++) {
 						var zip = centroids[j].map(function (e, i) {
@@ -218,25 +227,29 @@ app.post('/', function(req, res) {
 
 });
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 app.post('/renderEval', function(req, res) {
 	res.render('evaluate', {arr: docArr});
 });
 
 var displayCluster; 
+var clusterNum; 
 app.post('/setCluster', function(req, res) {
-	var clusterNum = req.body.clusterNum;
+	clusterNum = req.body.clusterNum;
 	displayCluster = groupedDocs[clusterNum];
-	console.log(displayCluster);
 });
 
 app.get('/displayCluster', function(req, res) {
-	res.render('clusterList', {arr: displayCluster});
+	res.render('clusterList', {arr: displayCluster, topTerm: kMeansData[0].children[clusterNum].name});
 });
 
 app.post('/evaluate', function(req, res) {
 	var docClusters = req.body.docClusters; 
 	var totalClusters = req.body.totalClusters;
-	var clusterGroups = groupClusters(totalClusters, clusterfck.hcluster(matrix));
+	var clusterGroups = groupClusters(totalClusters, clusterfck.hcluster(matrix, distance, linkage));
 
 	var goldMap = []; 
 	for(var i = 0; i < docClusters.length; i++) {
@@ -269,7 +282,9 @@ app.post('/evaluate', function(req, res) {
 	}
 
 	randIndex = (similarPairs + dissimilarPairs) / ((N*(N-1))/2) 
-	res.render('branch', {randIndex: randIndex});
+	res.render('branch', {randIndex: randIndex, 
+				linkage: capitalizeFirstLetter(linkage), 
+				distance: capitalizeFirstLetter(distance)});
 });
 
 app.listen(8080); 

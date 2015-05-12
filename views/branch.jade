@@ -1,5 +1,9 @@
 extend layout 
 block content
+	h1 Hierarchical Clustering
+	br
+	p #{distance} Distance and #{linkage} Linkage
+	br 
 	p Rand Index: #{randIndex}
 	form(action='/renderEval', method='post')
 		p 

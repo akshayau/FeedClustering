@@ -2,7 +2,8 @@ extend layout
 block content 
 	form(action='/', method='post')
 		p URLs 
-		textarea(cols="60", row="10", name="feedList")
+			br 
+			textarea(cols="60", row="10", name="feedList")
 		
 		p No of Articles (Per Site):  
 			input(type="number", name="articles", value="10")
@@ -12,22 +13,24 @@ block content
 			input(type="radio", name="clusterType", value="hierarchical")
 			| Heirarchical
 		h4 K-Means Options
+		br
 		p Clusters: 
 			input(type="number", name="clusters", value="5")
 		h4 Hierarchical Options
+		br
 		p Distance: 
-			input(type="radio", name="linkage", value="euclidean") 
+			input(type="radio", name="distance", value="euclidean") 
 			| Euclidean
-			input(type="radio", name="linkage", value="manhattan")
+			input(type="radio", name="distance", value="manhattan")
 			| Manhattan
-			input(type="radio", name="linkage", value="max")
+			input(type="radio", name="distance", value="max")
 			| Max
 		p Linkage: 
-			input(type="radio", name="distance", value="average") 
+			input(type="radio", name="linkage", value="average") 
 			| Average
-			input(type="radio", name="distance", value="single")
+			input(type="radio", name="linkage", value="single")
 			| Single
-			input(type="radio", name="distance", value="complete")
+			input(type="radio", name="linkage", value="complete")
 			| Complete
 		p 
 			input(type="submit")
