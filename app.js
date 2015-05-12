@@ -82,7 +82,6 @@ function groupClusters(numClusters, clusterTree) {
 		}	
 		clusterArr = clusterArr.slice(1, clusterArr.length);			
 	}
-	//console.log(clusterArr);
 	return extractValues(clusterArr);
 	
 }

@@ -15,7 +15,7 @@ color = d3.scale.category20c();
 
 var node, root;
 
-$.get('http://localhost:8080/getKmeansClusters', function(data) {
+$.get('/getKmeansClusters', function(data) {
   var canvas = d3.select("body").append("svg")
     .attr("width", w)
     .attr("height", h)
@@ -48,11 +48,11 @@ node.append("circle")
 .attr("r", function(d) { return d.r; })
 .style("fill", function(d) { return color(d.name); })
 .on("click", function(d) {
-    $.post('http://localhost:8080/setCluster', {clusterNum: d.clusterNum}, 
+    $.post('/setCluster', {clusterNum: d.clusterNum}, 
         function(data, status){
             console.log(data);
         });
-    window.location.href = 'http://localhost:8080/displayCluster';
+    window.location.href = '/displayCluster';
 });
 
 node.append("text")

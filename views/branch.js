@@ -17,8 +17,6 @@ var svg = d3.select("body").append("svg")
     .attr("transform", "translate(40,0)");
 
 function getDocId(docVector, matrix) {
-    console.log(matrix);
-    console.log(docVector);
     for (var i = 0; i < matrix.length; i++) {
         var equal = 1; 
         for (var j = 0; j < docVector.length; j++) {
@@ -35,7 +33,7 @@ function getDocId(docVector, matrix) {
     return -1; 
 }
 
-$.get('http://localhost:8080/getHierarchical', function(data) {
+$.get('/getHierarchical', function(data) {
     root = data[0]; 
     matrix = data[1]; 
     docArr = data[2];
@@ -72,7 +70,6 @@ $.get('http://localhost:8080/getHierarchical', function(data) {
             return (d.value == "root" || !d.value) ? "" : docArr[getDocId(d.value, matrix)].title; })
         .on("click", function(d) { 
             return (d.value == "root" || !d.value) ? "" : window.open(docArr[getDocId(d.value, matrix)].link); });
-        //.attr("xlink:href", function (d) { docArr[getDocId(d.value, matrix)].link; });
 }); 
 
 d3.select(self.frameElement).style("height", height + "px");
